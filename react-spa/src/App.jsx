@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 
 import { PageLayout } from './components/PageLayout';
 import { loginRequest } from './authConfig';
-import { callMsGraph } from './graph';
+import { callMsGraph, callMsGraphSpSite, callMsGraphSpList } from './graph';
 import { ProfileData } from './components/ProfileData';
+import { SiteData } from './components/SiteData';
+import { ListData } from './components/ListData';
 
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react';
 import './App.css';
@@ -16,6 +18,8 @@ import Button from 'react-bootstrap/Button';
 const ProfileContent = () => {
     const { instance, accounts } = useMsal();
     const [graphData, setGraphData] = useState(null);
+    const [graphSpData, setGraphSpData] = useState(null);
+    const [graphListData, setGraphListData] = useState(null);
 
     function RequestProfileData() {
         // Silently acquires an access token which is then attached to a request for MS Graph data
@@ -29,6 +33,36 @@ const ProfileContent = () => {
             });
     }
 
+    function RequestSiteData() {
+        // Silently acquires an access token which is then attached to a request for MS Graph data
+        instance
+            .acquireTokenSilent({
+                ...loginRequest,
+                account: accounts[0],
+            })
+            .then((response) => {
+                callMsGraphSpSite(response.accessToken).then((response) => setGraphSpData(response));
+                console.log(response)
+            });
+    }
+
+    function RequestListData() {
+        // Silently acquires an access token which is then attached to a request for MS Graph data
+        instance
+            .acquireTokenSilent({
+                ...loginRequest,
+                account: accounts[0],
+            })
+            .then((response) => {
+                callMsGraphSpList(response.accessToken).then((response) => setGraphListData(response))
+                console.log(response)
+            })
+
+            
+    }
+
+
+
     return (
         <>
             <h5 className="profileContent">Welcome {accounts[0].name}</h5>
@@ -37,6 +71,20 @@ const ProfileContent = () => {
             ) : (
                 <Button variant="secondary" onClick={RequestProfileData}>
                     Request Profile
+                </Button>
+            )}
+            {graphSpData ? (
+                <SiteData graphSpData={graphSpData} />
+            ) : (
+                <Button variant="secondary" onClick={RequestSiteData}>
+                    Request Site
+                </Button>
+            )}
+            {graphListData ? (
+                <ListData graphListData={graphListData} />
+            ) : (
+                <Button variant="secondary" onClick={RequestListData}>
+                    Request List
                 </Button>
             )}
         </>

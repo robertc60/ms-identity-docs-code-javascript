@@ -13,8 +13,8 @@ import { LogLevel } from "@azure/msal-browser";
 
 export const msalConfig = {
     auth: {
-        clientId: "Enter_the_Application_Id_Here",
-        authority: "https://login.microsoftonline.com/Enter_the_Tenant_Info_Here",
+        clientId: "dc5e43da-1a97-4d14-a8e9-448e953c8b05",
+        authority: "https://login.microsoftonline.com/b13c1ef9-2a88-41b4-90f4-e90029567e81",
         redirectUri: "http://localhost:3000",
     },
     cache: {
@@ -65,3 +65,11 @@ export const loginRequest = {
 export const graphConfig = {
     graphMeEndpoint: "https://graph.microsoft.com/v1.0/me",
 };
+
+export const spSiteConfig ={
+    GraphSpSiteEndpoint: "https://graph.microsoft.com/v1.0/sites/61b5b275-2a4e-4425-bfac-23377a0f4f79"
+}
+
+export const spListConfig ={
+    GraphSpListEndpoint: "https://graph.microsoft.com/v1.0/sites/61b5b275-2a4e-4425-bfac-23377a0f4f79/lists/f0183ebb-87c6-4b48-ad3d-7edef1a75989?expand=columns"
+}
